@@ -1,0 +1,6 @@
+
+# sql proxy executable for connecting to cloud SQL instance
+cloud_sql_proxy_x64.exe
+
+# test project directory
+django/
