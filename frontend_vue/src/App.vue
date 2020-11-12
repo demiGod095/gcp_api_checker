@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-link to="/" class="title">API Checker</router-link> |
+    <router-link to="/index.html" class="title">API Checker</router-link> |
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
