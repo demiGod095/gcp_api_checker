@@ -22,6 +22,11 @@ Coding Challenge for Aginic Full Stack Developer Role
     - Hosted using Google App Engine (PaaS)
     - Tests conducted using Postman application for the various API calls
     - Browsable API can be viewed publicly [here](https://shreyas-api-checker.ts.r.appspot.com/api/)
+        - List
+        - Create job with url
+        - View Job details by following the link in list view
+        - Update job in the detail view with id
+        - Delete job using button / Sending a Delete request to the job detail endpoint
     
 1. Data Persistence Layer
     - Provided using Google Cloud SQL, a managed database service
