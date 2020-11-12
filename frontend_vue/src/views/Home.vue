@@ -28,37 +28,31 @@
     <div class="columns">
       <div class="column is-10 is-offset-1">
         <h2 class="subtitle">Jobs</h2>
-        <table class="table is-fullwidth is-striped">
+        <table class="table is-fullwidth is-bordered">
+          <thead>
           <tr>
             <th>URL</th>
             <th>Tries</th>
-            <th>Status</th>
+            <th>Code</th>
           </tr>
+          </thead>
 
           <tr v-bind:key="job.id" v-for="job in jobs"
-          :class="job.tries==0? 'is-primary' : ''">
+          :class="job.tries===0? 'has-background-warning-light' :
+            job.code<400? 'is-selected' : 'has-background-danger-dark has-text-white-bis'">
             <td>{{ job.url }}</td>
             <td>{{ job.tries }}</td>
-            <td>{{ job.status || "None" }}</td>
+            <td>{{ job.code || "None" }} {{ job.response }}</td>
           </tr>
         </table>
-
-
-<!--        <div class="card" v-bind:key="job.id" v-for="job in jobs">-->
-<!--          <div class="card-content">{{ job.url }}</div>-->
-
-<!--          <footer class="card-footer">-->
-<!--            <a @click="setStatus(job.id, 'done')" class="card-footer-item">Done</a>-->
-<!--          </footer>-->
-<!--        </div>-->
-
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-const API_URL = 'http://127.0.0.1:8000/api/'
+const API_URL = 'https://shreyas-api-checker.ts.r.appspot.com/api/'
 import axios from 'axios'
 
 const validUrl = require('valid-url');
@@ -69,28 +63,37 @@ export default {
     return {
       jobs: [],
       url: '',
-      tries: 0
+      tries: 0,
+      polling: null
     }
   },
   mounted() {
     this.getTasks()
+    this.pollData()
+  },
+  deactivated() {
+    clearInterval(this.polling)
   },
   methods: {
+    pollData () {
+      this.polling = setInterval(() => {
+        this.getTasks()
+      }, 10000)
+    },
     getTasks() {
       axios({
         method: 'get',
         url: API_URL + 'jobs/'
       }).then((response) => {
-        this.jobs = response.data
-        // console.log(response)
+        this.jobs = response.data.reverse()
       })
     },
     addJob() {
-
       if (this.url) {
-        if (validUrl.isHttpUri(this.url)) {
+        if (validUrl.isWebUri (this.url)) {
           console.log('Looks like an URI ' + this.url);
         } else {
+          // console.log('Not a valid URL! ' + this.url);
           alert('Not a valid URL!');
           return;
         }
@@ -100,36 +103,20 @@ export default {
           url: API_URL + 'jobs/',
           data: {
             url: this.url,
-            status: this.status
+            code: this.code
           }
         }).then((response) => {
           let newTask = {
             'id': response.data.id,
             'url': this.url,
+            'tries': 0
           }
-          this.jobs.push(newTask)
+          this.jobs.unshift(newTask)
           this.url = ''
         }).catch((error) => {
           console.log(error)
         })
       }
-    },
-    setStatus(job_id, status) {
-      const job = this.jobs.filter(job => job.id === job_id)[0]
-      const url = job.url
-      axios({
-        method: 'put',
-        url: API_URL + 'jobs/' + job_id + '/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: {
-          status: status,
-          url: url
-        }
-      }).then(() => {
-        job.status = status
-      })
     }
   }
 }

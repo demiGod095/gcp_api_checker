@@ -99,16 +99,18 @@ def job_runner():
 
             # no job found, can stop execution
             if not job:
-                session.commit()
-                return "No more jobs"
+                print(f'No more jobs')
+                return
 
             # job found, process the url
             tries, code = try_url(job.url)
 
+            print(f'{job.url=} (RESULT: {tries=}, {code=})')
+
             # update the job
             job.tries = tries
             job.code = code
-            job.response = my_inverted_codes[code]
+            job.response = my_inverted_codes.get(code, 'unknown')
 
             # commit the update and unlock the job
             session.commit()
@@ -118,8 +120,6 @@ def job_runner():
         session.rollback()
     finally:
         session.close()
-
-    return "Error"
 
 
 def job_runner_sub(event, context):
@@ -141,7 +141,7 @@ def job_runner_sub(event, context):
 
 
 if __name__ == 'main':
-    # calc invert of dictionary on bootup
+    # calc invert of dictionary on boot
     my_inverted_codes = {requests.codes.get(key): key for key in dir(requests.codes)}
 
     # run job
