@@ -106,10 +106,11 @@ if os.getenv('GAE_APPLICATION', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': f'/cloudsql/{os.getenv("MY_CONNECTION_NAME")}',
+            'HOST': os.getenv('MY_PRIVATE_IP'),
             'USER': os.getenv('MY_USERNAME'),
             'PASSWORD': os.getenv('MY_PASSWORD'),
             'NAME': os.getenv('MY_DATABASE'),
+            'PORT': os.getenv('MY_PROXY_PORT'),
         }
     }
 else:
