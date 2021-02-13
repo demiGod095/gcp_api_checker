@@ -14,27 +14,33 @@ Coding Challenge for Aginic Full Stack Developer Role
     - Created using Vue.js
     - Automatic refresh of data every 10 seconds
     - Single Page Application for submitting URL and viewing status
-    - Hosted on Google Cloud storage [here](https://storage.googleapis.com/checker-static-hosting/index.html).
+    - ~Hosted on Google Cloud storage [here](https://storage.googleapis.com/checker-static-hosting/index.html)~
+    - Frontend Preview: ![api-checker-frontend](https://user-images.githubusercontent.com/17527859/107841917-7c133680-6e13-11eb-95b9-27bd5e5c7e99.png)
+    - Frontend Bucket: ![api-checker-frontend-bucket](https://user-images.githubusercontent.com/17527859/107841919-7cabcd00-6e13-11eb-82e1-e60505f49924.png)
 
 1. API Server
     - Implemented using Django + Django Rest Framework
     - Basic CRUD functionality of jobs
     - Hosted using Google App Engine (PaaS)
     - Tests conducted using Postman application for the various API calls
-    - Browsable API can be viewed publicly [here](https://shreyas-api-checker.ts.r.appspot.com/api/)
+    - ~Browsable API can be viewed publicly [here](https://shreyas-api-checker.ts.r.appspot.com/api/)~
         - List
         - Create job with url
         - View Job details by following the link in list view
         - Update job in the detail view with id
         - Delete job using button / Sending a Delete request to the job detail endpoint
+    - Backend Preview: ![api-checker-backend](https://user-images.githubusercontent.com/17527859/107841911-787faf80-6e13-11eb-9f87-f4751683e4e3.png)
+    - Backend Admin Preview: ![api-checker-admin](https://user-images.githubusercontent.com/17527859/107841910-76b5ec00-6e13-11eb-879a-2389c4419f04.png)
     
 1. Data Persistence Layer
     - Provided using Google Cloud SQL, a managed database service
     - Access restricted behind the VPC Firewall provided by Google Cloud Platform
     - All App Engine applications are authorised to connect to the SQL Instance
     - Google Cloud Functions requires a VPC Connection in order to connect to the service (it provides a private IP address for the function to call to the private IP of the SQL Instance)
+        - Functions and GAE - VPC connectors previews: ![api-checker-backend-vpc](https://user-images.githubusercontent.com/17527859/107841916-7b7aa000-6e13-11eb-866b-82e98835e02c.png) 
     - Tests conducted by using local connection proxy provided by Google Cloud
     - Not accessible publicly, so no url
+    - SQL Connection Preview: ![api-checker-backend-sql](https://user-images.githubusercontent.com/17527859/107841914-7a497300-6e13-11eb-80a4-1f0e7c559567.png)
     
 1. Job Runner
     - Achieved using Google Cloud Functions (FaaS) as a serverless, stateless runtime environment
@@ -50,6 +56,8 @@ Coding Challenge for Aginic Full Stack Developer Role
         - This way, multiple processes accessing the same database can be achieved without any synchronization issues
     - GCP Functions are horizontally scalable, so an admin can change the maximum number of allowed instances in Cloud Console in order to account for extra load
         - Moreover, the function backend can scale the instances down when they are not in use, so that resources as well as money is not wasted when there is no load
+    - Functions Preview: ![api-checker-backend-functions](https://user-images.githubusercontent.com/17527859/107841913-79b0dc80-6e13-11eb-9291-0a0558abbe9b.png)
+    - Functions Details: ![api-checker-backend-functions-details](https://user-images.githubusercontent.com/17527859/107842718-63a61a80-6e19-11eb-8ad2-9a3e8477a1f8.png)
    
 #### Design Decisions
 1. Google Cloud Platform (for it's free tier)
